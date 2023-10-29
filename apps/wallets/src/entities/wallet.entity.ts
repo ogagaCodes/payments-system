@@ -3,20 +3,32 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, Updat
 
 @Entity()
 @Unique(['user_id'])
-export class User {
+export class Wallet {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  user_id: string;
+  user_id: number;
 
   @Column()
-  wallet_balance: number;
+  user_phone_number: string;
+
+  @Column({ default: 0 })
+  available_balance: number;
+
+  @Column({default : 0})
+  withdrawable_balance: number
+
+  @Column()
+  currency: string;
+
+  @Column()
+  wallet_pin: number;
 
   @Column()
   last_funded_origin: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   is_blocked: boolean;
 
   @CreateDateColumn({ type: 'timestamp without time zone', default: 'NOW()' })

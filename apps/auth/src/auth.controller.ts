@@ -1,12 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { UsersService } from '@app/users/users.service';
 import { AuthService } from './auth.service';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService, private userService: UsersService) {}
 
-  @Get()
-  getHello(): string {
-    return this.authService.getHello();
+  @Post('login')
+  async login(@Req() req, @Res() res, @Body() body) {
+    const auth = await this.authService.login(body);
+    res.status(auth.status).json(auth.msg);
+  }
+
+  @Post('register')
+  async register(@Req() req, @Res() res, @Body() body) {
+    const auth = await this.authService.register(body);
+    res.status(auth.status).json(auth.content);
   }
 }
