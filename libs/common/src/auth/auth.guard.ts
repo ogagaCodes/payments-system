@@ -41,7 +41,7 @@ import {
       }
       if (!authentication) {
         throw new UnauthorizedException(
-          'Un Authorisee',
+          'UnAuthorised',
         );
       }
       return authentication;

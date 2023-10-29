@@ -3,18 +3,21 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, Updat
 
 @Entity()
 @Unique(['wallet_id'])
-export class User {
+export class WalletFrequencyCounter {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  wallet_id: string;
+  wallet_id: number;
 
   @Column()
-  operation_type: number;
+  operation_type: string;
 
   @Column()
-  freqency: string;
+  freqency: number;
+
+  @Column()
+  has_exceeded_frequency_history: boolean;
 
   @CreateDateColumn({ type: 'timestamp without time zone', default: 'NOW()' })
   createdAt: Date;

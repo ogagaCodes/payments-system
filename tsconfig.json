@@ -23,7 +23,37 @@
       ],
       "@app/common/*": [
         "libs/common/src/*"
-      ]
+      ],
+      "@app/auth": [
+        "apps/auth/src"
+      ],
+      "@app/auth/*": [
+        "apps/auth/src/*"
+      ],
+      "@app/admin": [
+        "apps/admin/src"
+      ],
+      "@app/admin/*": [
+        "apps/admin/src/*"
+      ],
+      "@app/users": [
+        "apps/users/src"
+      ],
+      "@app/users/*": [
+        "apps/users/src/*"
+      ],
+      "@app/payments": [
+        "apps/payments/src"
+      ],
+      "@app/payments/*": [
+        "apps/payments/src/*"
+      ],
+      "@app/wallets": [
+        "apps/wallets/src"
+      ],
+      "@app/wallets/*": [
+        "apps/wallets/src/*"
+      ],
     }
   }
 }
