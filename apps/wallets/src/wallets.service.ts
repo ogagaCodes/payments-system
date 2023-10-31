@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
+// external libraries
+import { createHmac } from 'crypto';
+const secret = process.env.SECRET_KEY;
+
+// DTOs
 import { WalletDTO } from './dto/wallet.dto';
 import { BulkCreateWalletDTO } from './dto/bulk_create.dto';
 import { WalletTransactionsDTO } from './dto/transactions.dto';
@@ -9,6 +15,7 @@ import { CreditWalletDTO } from './dto/credit_wallet.dto';
 import { DebitWalletDTO } from './dto/debit_wallet.dto';
 import { WalletTransferDTO } from './dto/wallet_transfer.dto';
 
+// Entities
 import { Wallet } from './entities/wallet.entity';
 import { WalletTransactions } from './entities/transactions.entity';
 import { WalletFrequencyCounter } from './entities/operation_tracker.entity';
@@ -283,5 +290,38 @@ export class WalletService {
     frequencyCounter.freqency = operationTrackerDTO.freqency;
 
     return this.operationCounterRepository.save(frequencyCounter);
+  }
+
+  // webhooks for
+  async webHookListener(request: any): Promise<Object> {
+    try {
+      //  handle webhook success:::
+      //  other events can be handled here too
+      const hash = createHmac('sha512', secret)
+        .update(JSON.stringify(request.body))
+        .digest('hex');
+      if (hash == request.headers['x-paystack-signature']) {
+        const response = request.body;
+        // Do something with event
+        if (response.event === 'charge.success') {
+          //  update transction with unique reference
+          const update = {
+            reference: response.data.reference,
+            status: 'success',
+          };
+          const transaction = this.transactionRepository.save({ ...update });
+          // credit users wallet
+          const filter: CreditWalletDTO = {
+            wallet_id: (await transaction).wallet_id,
+            phone_number: (await transaction).user_phone_number,
+            amount: (await transaction).amount,
+            user_id: (await transaction).user_id,
+          };
+          this.creditWallet(filter);
+        }
+      }
+      // TODO:::: Bulk Credit
+      return {};
+    } catch (error) {}
   }
 }

@@ -30,6 +30,9 @@ export class WalletTransactionsDTO {
   funding_origin: string;
 
   @IsNotEmpty()
+  reference: string;
+
+  @IsNotEmpty()
   status: string;
 
   @IsNotEmpty()

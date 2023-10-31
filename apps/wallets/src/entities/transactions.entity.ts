@@ -15,6 +15,9 @@ export class WalletTransactions {
   id: number;
 
   @Column()
+  wallet_id: number;
+  
+  @Column()
   user_id: number;
 
   @Column()

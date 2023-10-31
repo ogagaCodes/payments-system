@@ -6,8 +6,6 @@ import { Wallet } from './entities/wallet.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WalletTransactions } from './entities/transactions.entity';
 import { WalletFrequencyCounter } from './entities/operation_tracker.entity';
-import { ConfigModule } from '@nestjs/config';
-import Joi from 'joi';
 
 @Module({
   imports: [

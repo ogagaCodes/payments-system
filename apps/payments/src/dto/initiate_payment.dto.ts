@@ -7,7 +7,7 @@ import {
     IsNotEmpty,
   } from 'class-validator';
   
-  export class Post {
+  export class InitiatePayment {
     @IsNotEmpty()
     user_id: string;
   
@@ -17,14 +17,6 @@ import {
   
     @IsEmail()
     email: string;
-  
-    @IsFQDN()
-    site: string;
-  
-    @IsDate()
-    createDate: Date;
 
-    @IsDate()
-    updatedDate: Date;
   }
   
